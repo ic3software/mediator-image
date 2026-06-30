@@ -1,0 +1,38 @@
+name: Build & Push Mediator Image
+
+on:
+  workflow_dispatch:
+    inputs:
+      mediator_version:
+        description: "Mediator version"
+        required: true
+        default: "0.16.7"
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository_owner }}/mediator
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: docker/build-push-action@v7
+        with:
+          context: .
+          push: true
+          build-args: MEDIATOR_VERSION=${{ inputs.mediator_version }}
+          tags: |
+            ghcr.io/${{ env.IMAGE_NAME }}:${{ inputs.mediator_version }}
+            ghcr.io/${{ env.IMAGE_NAME }}:latest
