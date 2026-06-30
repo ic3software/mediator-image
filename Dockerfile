@@ -7,7 +7,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 RUN curl -fsSL "https://fpp.ic3.dev/mediator-k8s/${MEDIATOR_VERSION}/mediator" -o /usr/local/bin/mediator && \
-    chmod 0755 /usr/local/bin/mediator
+    curl -fsSL "https://fpp.ic3.dev/mediator-k8s/${MEDIATOR_VERSION}/mediator-setup" -o /usr/local/bin/mediator-setup && \
+    chmod 0755 /usr/local/bin/mediator /usr/local/bin/mediator-setup
 
 WORKDIR /app/mediator
 
