@@ -12,7 +12,4 @@ RUN curl -fsSL "https://fpp.ic3.dev/mediator-k8s/${MEDIATOR_VERSION}/mediator" -
 
 WORKDIR /app/mediator
 
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod 0755 /entrypoint.sh
-
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["mediator"]
